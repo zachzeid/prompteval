@@ -34,7 +34,7 @@ A CLI tool with web UI for evaluating prompts in Markdown files, assessing effec
 ### 1. Clone and navigate to the project
 
 ```bash
-git clone https://github.com/youruser/promptdesign.git
+git clone https://github.com/zachzeid/promptdesign.git
 cd promptdesign
 ```
 
