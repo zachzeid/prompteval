@@ -1,0 +1,309 @@
+# PromptDesign Heuristic Rules Configuration
+# ============================================
+# This file defines the rules used for prompt analysis.
+# Create custom rule files and load them with: prompteval analyze file.md --config your-rules.yaml
+#
+# TIP: Start by copying this file, then adjust values for your specific use case.
+
+
+# =============================================================================
+# THRESHOLDS
+# =============================================================================
+# These values set minimum/maximum limits that trigger issues in the analysis.
+
+thresholds:
+  # Minimum number of words for a prompt to be considered "complete"
+  # Impact: Prompts with fewer words will be flagged in the Completeness dimension
+  #         and receive a lower score. Increase for stricter requirements.
+  # Default: 20 | Strict: 30-50 | Lenient: 10
+  min_word_count: 20
+
+  # Maximum words per sentence before flagging as "too long"
+  # Impact: Sentences exceeding this are flagged in Clarity dimension.
+  #         Lower values enforce more concise writing.
+  # Default: 40 | Strict: 25-30 | Lenient: 50+
+  max_sentence_length: 40
+
+
+# =============================================================================
+# DIMENSION WEIGHTS
+# =============================================================================
+# These weights determine how much each dimension contributes to the overall score.
+# Higher weight = more impact on final score.
+# All weights are relative - what matters is their ratio to each other.
+
+weights:
+  # Clarity: Readability, sentence structure, avoiding passive voice
+  # Increase if clear communication is critical (e.g., user-facing prompts)
+  clarity: 1.0
+
+  # Specificity: Concrete details, avoiding vague terms, includes examples
+  # Increase for technical/precise tasks; decrease for creative tasks
+  specificity: 1.0
+
+  # Structure: Logical organization, use of lists/sections, flow markers
+  # Increase for complex multi-step prompts; less important for short prompts
+  structure: 0.8
+
+  # Completeness: Sufficient context, role definition, task clarity
+  # Increase when prompts need to be self-contained; decrease for conversational use
+  completeness: 1.2
+
+  # Output Format: Specifies expected response format and length
+  # Increase for structured output needs (JSON, tables); less important for free-form
+  output_format: 0.8
+
+  # Guardrails weight for SYSTEM prompts and SKILLS
+  # Higher because safety constraints are critical for system prompts
+  guardrails_system: 1.2
+
+  # Guardrails weight for USER prompts
+  # Lower because user prompts don't always need explicit constraints
+  guardrails_user: 0.6
+
+
+# =============================================================================
+# SCORE LABELS
+# =============================================================================
+# Thresholds for score labels displayed in the UI.
+# Scores >= threshold get that label.
+
+score_labels:
+  excellent: 80  # 80-100 = "Excellent"
+  good: 60       # 60-79 = "Good"
+  fair: 40       # 40-59 = "Fair"
+  # Below 40 = "Needs Work"
+
+
+# =============================================================================
+# VAGUE TERMS
+# =============================================================================
+# Words flagged as too vague in the Specificity dimension.
+# Impact: Each occurrence triggers an issue and reduces the Specificity score.
+#         Add domain-specific vague terms; remove terms that are acceptable in your context.
+# Example: In a legal context, "reasonable" might be acceptable and should be removed.
+
+vague_terms:
+  - good
+  - proper
+  - appropriate
+  - nice
+  - better
+  - best
+  - correct
+  - right
+  - wrong
+  - bad
+  - okay
+  - fine
+  - reasonable
+  - suitable
+  - adequate
+  - sufficient
+  - effective
+  - efficient
+  - optimal
+  - ideal
+
+
+# =============================================================================
+# OUTPUT FORMAT MARKERS
+# =============================================================================
+# Words that indicate the prompt specifies an output format.
+# Impact: If NONE of these appear, the Output Format score is penalized.
+#         Add format-related terms specific to your domain.
+
+output_format_markers:
+  - format
+  - respond
+  - output
+  - return
+  - provide
+  - give
+  - answer
+  - reply
+  - json
+  - markdown
+  - bullet
+  - list
+  - table
+
+
+# =============================================================================
+# GUARDRAIL MARKERS
+# =============================================================================
+# Words that indicate safety constraints or boundaries are defined.
+# Impact: System/skill prompts WITHOUT these markers are heavily penalized.
+#         These help detect prompts that set clear limits on behavior.
+
+guardrail_markers:
+  - never
+  - always
+  - must
+  - don't
+  - do not
+  - avoid
+  - refuse
+  - only
+  - cannot
+  - should not
+  - forbidden
+  - prohibited
+  - limit
+  - restrict
+  - boundary
+  - exception
+  - unless
+  - if not
+
+
+# =============================================================================
+# EXAMPLE MARKERS
+# =============================================================================
+# Words that indicate examples are provided in the prompt.
+# Impact: Prompts WITHOUT examples are flagged in Specificity dimension.
+#         Examples significantly improve prompt clarity and model understanding.
+
+example_markers:
+  - example
+  - for instance
+  - such as
+  - e.g.
+  - like this
+
+
+# =============================================================================
+# ROLE MARKERS
+# =============================================================================
+# Words that indicate a role or persona is defined.
+# Impact: System/skill prompts WITHOUT role definition are flagged in Completeness.
+#         Defining "who" the assistant is improves response consistency.
+
+role_markers:
+  - you are
+  - act as
+  - behave as
+  - role
+  - persona
+  - assistant
+  - expert
+
+
+# =============================================================================
+# CONTEXT MARKERS
+# =============================================================================
+# Words that indicate context or background information is provided.
+# Impact: Prompts >30 words WITHOUT context markers are flagged in Completeness.
+#         Context helps the model understand the situation and respond appropriately.
+
+context_markers:
+  - context
+  - background
+  - given
+  - assuming
+  - based on
+  - considering
+
+
+# =============================================================================
+# TASK MARKERS
+# =============================================================================
+# Words that indicate a clear task or objective is stated.
+# Impact: Prompts WITHOUT task markers are flagged in Completeness.
+#         Clear task definition is essential for useful responses.
+
+task_markers:
+  - task
+  - goal
+  - objective
+  - help
+  - assist
+  - create
+  - generate
+  - analyze
+  - review
+  - write
+
+
+# =============================================================================
+# FLOW MARKERS
+# =============================================================================
+# Words that indicate logical sequence or step ordering.
+# Impact: Prompts >50 words WITHOUT flow markers are flagged in Structure.
+#         Sequential instructions benefit from explicit ordering.
+
+flow_markers:
+  - first
+  - then
+  - next
+  - finally
+  - after
+  - before
+  - step
+
+
+# =============================================================================
+# SCOPE MARKERS
+# =============================================================================
+# Words that indicate boundaries on what the assistant should do.
+# Impact: System/skill prompts WITHOUT scope markers are flagged in Guardrails.
+#         Defining scope prevents the assistant from going off-topic.
+
+scope_markers:
+  - only
+  - limited to
+  - focus on
+  - specifically
+  - exclusively
+
+
+# =============================================================================
+# EDGE CASE MARKERS
+# =============================================================================
+# Words that indicate handling of edge cases or exceptions.
+# Impact: System/skill prompts WITHOUT these are flagged in Guardrails.
+#         Edge case handling makes prompts more robust.
+
+edge_case_markers:
+  - if
+  - when
+  - unless
+  - except
+  - in case
+  - otherwise
+
+
+# =============================================================================
+# LENGTH MARKERS
+# =============================================================================
+# Words that indicate expected response length or detail level.
+# Impact: Prompts WITHOUT length expectations are flagged in Output Format.
+#         Specifying length helps control response verbosity.
+
+length_markers:
+  - brief
+  - concise
+  - detailed
+  - comprehensive
+  - short
+  - long
+  - words
+  - sentences
+  - paragraphs
+
+
+# =============================================================================
+# SPECIFIC FORMATS
+# =============================================================================
+# Explicit format types that indicate high specificity in output requirements.
+# Impact: Presence of these gives a BONUS to Output Format score.
+#         These are more specific than general format markers.
+
+specific_formats:
+  - json
+  - xml
+  - yaml
+  - markdown
+  - html
+  - csv
+  - table

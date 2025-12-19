@@ -1,0 +1,60 @@
+# Strict Heuristic Rules Configuration
+# This is a stricter rule set that flags more issues.
+# Use with: prompteval analyze file.md --config config/strict_rules.yaml
+
+# Stricter thresholds
+thresholds:
+  min_word_count: 30          # Require more words for completeness
+  max_sentence_length: 30     # Flag shorter sentences as too long
+
+# Higher weights for certain dimensions
+weights:
+  clarity: 1.2
+  specificity: 1.3
+  structure: 1.0
+  completeness: 1.5
+  output_format: 1.0
+  guardrails_system: 1.5
+  guardrails_user: 0.8
+
+# Extended vague terms list
+vague_terms:
+  - good
+  - proper
+  - appropriate
+  - nice
+  - better
+  - best
+  - correct
+  - right
+  - wrong
+  - bad
+  - okay
+  - fine
+  - reasonable
+  - suitable
+  - adequate
+  - sufficient
+  - effective
+  - efficient
+  - optimal
+  - ideal
+  # Additional strict terms
+  - some
+  - many
+  - few
+  - various
+  - certain
+  - specific
+  - general
+  - typical
+  - normal
+  - standard
+  - basic
+  - simple
+  - complex
+  - important
+  - significant
+  - relevant
+  - necessary
+  - appropriate

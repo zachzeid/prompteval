@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-50 text-gray-900;
+}
+
+.score-excellent {
+  @apply text-green-600 bg-green-50;
+}
+
+.score-good {
+  @apply text-blue-600 bg-blue-50;
+}
+
+.score-fair {
+  @apply text-yellow-600 bg-yellow-50;
+}
+
+.score-poor {
+  @apply text-red-600 bg-red-50;
+}
