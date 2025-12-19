@@ -34,7 +34,8 @@ A CLI tool with web UI for evaluating prompts in Markdown files, assessing effec
 ### 1. Clone and navigate to the project
 
 ```bash
-cd /Users/zzeid/github/promptdesign
+git clone https://github.com/youruser/promptdesign.git
+cd promptdesign
 ```
 
 ### 2. Install Python dependencies
@@ -134,13 +135,12 @@ For development with hot-reload:
 
 **Terminal 1 - Backend:**
 ```bash
-cd /Users/zzeid/github/promptdesign
 uvicorn backend.app:app --reload --port 8080
 ```
 
 **Terminal 2 - Frontend:**
 ```bash
-cd /Users/zzeid/github/promptdesign/frontend
+cd frontend
 npm run dev
 ```
 
